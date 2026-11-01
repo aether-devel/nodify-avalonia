@@ -22,3 +22,5 @@ jobs:
         run: |
           dotnet workload restore
           dotnet build --configuration Release
+      - name: Test
+        run: dotnet test Nodify.Tests/Nodify.Tests.csproj --configuration Release --no-build
