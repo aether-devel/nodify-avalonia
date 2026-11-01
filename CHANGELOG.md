@@ -6,10 +6,15 @@
 > - Features:
 > - Bugfixes:
 
+#### **Version 7.0.1**
+
+> - Bugfixes:
+>	- Package published as AetherDevel.NodifyAvalonia (the Aether.* prefix is reserved on nuget.org; 7.0.0 was never published)
+
 #### **Version 7.0.0**
 
 > - Breaking Changes:
->	- Package renamed to Aether.NodifyAvalonia (maintained fork of NodifyAvalonia at https://github.com/aether-devel/nodify-avalonia)
+>	- Package renamed to AetherDevel.NodifyAvalonia (maintained fork of NodifyAvalonia at https://github.com/aether-devel/nodify-avalonia)
 >	- Requires Avalonia 12 and .NET 10
 > - Features:
 >	- Added Nodify.Tests headless regression test project, run in CI
