@@ -27,7 +27,7 @@ namespace Nodify
         {
             if (values.Count == 2 && values[0] is double d1 && values[1] is double d2)
                 return d1 * d2;
-            return null;
+            return AvaloniaProperty.UnsetValue;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -40,10 +40,9 @@ namespace Nodify
     {
         public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values.Any(x => x is UnsetValueType)) return false;
-
-            Point result = (Point)((Vector)(Point)values[0]! * (double)values[1]!);
-            return result;
+            if (values.Count == 2 && values[0] is Point point && values[1] is double zoom)
+                return (Point)((Vector)point * zoom);
+            return AvaloniaProperty.UnsetValue;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

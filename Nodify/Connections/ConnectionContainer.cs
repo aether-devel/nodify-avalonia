@@ -42,8 +42,8 @@ namespace Nodify
 
         #region Routed events
 
-        public static readonly RoutedEvent SelectedEvent = RoutedEvent.Register<RoutedEventArgs>(nameof(Selected), RoutingStrategies.Bubble, typeof(ConnectionContainer));
-        public static readonly RoutedEvent UnselectedEvent = RoutedEvent.Register<RoutedEventArgs>(nameof(Unselected), RoutingStrategies.Bubble, typeof(ConnectionContainer));
+        public static readonly RoutedEvent<RoutedEventArgs> SelectedEvent = RoutedEvent.Register<RoutedEventArgs>(nameof(Selected), RoutingStrategies.Bubble, typeof(ConnectionContainer));
+        public static readonly RoutedEvent<RoutedEventArgs> UnselectedEvent = RoutedEvent.Register<RoutedEventArgs>(nameof(Unselected), RoutingStrategies.Bubble, typeof(ConnectionContainer));
 
         /// <summary>
         /// Occurs when this <see cref="ConnectionContainer"/> is selected.

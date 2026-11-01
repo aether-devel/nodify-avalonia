@@ -440,8 +440,8 @@ namespace Nodify
 
         #region Routed Events
 
-        public static readonly RoutedEvent DisconnectEvent = RoutedEvent.Register<ConnectionEventArgs>(nameof(Disconnect), RoutingStrategies.Bubble, typeof(BaseConnection));
-        public static readonly RoutedEvent SplitEvent = RoutedEvent.Register<ConnectionEventArgs>(nameof(Split), RoutingStrategies.Bubble, typeof(BaseConnection));
+        public static readonly RoutedEvent<ConnectionEventArgs> DisconnectEvent = RoutedEvent.Register<ConnectionEventArgs>(nameof(Disconnect), RoutingStrategies.Bubble, typeof(BaseConnection));
+        public static readonly RoutedEvent<ConnectionEventArgs> SplitEvent = RoutedEvent.Register<ConnectionEventArgs>(nameof(Split), RoutingStrategies.Bubble, typeof(BaseConnection));
 
         /// <summary>Triggered by the <see cref="EditorGestures.ConnectionGestures.Disconnect"/> gesture.</summary>
         public event ConnectionEventHandler Disconnect

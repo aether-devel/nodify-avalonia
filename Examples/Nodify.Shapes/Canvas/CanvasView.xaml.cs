@@ -14,27 +14,23 @@ namespace Nodify.Shapes.Canvas
         private readonly DispatcherTimer _generateLocationTimer;
         private readonly Random _random = new Random();
         private readonly Dictionary<UserCursorViewModel, Point> _moveToLocations = new Dictionary<UserCursorViewModel, Point>();
+        private CanvasViewModel? ViewModel => DataContext as CanvasViewModel;
 
         public CanvasView()
         {
             InitializeComponent();
             _moveToLocationTimer = new DispatcherTimer(TimeSpan.FromSeconds(1d / 60d), DispatcherPriority.Background, OnMoveToLocationTick);
             _generateLocationTimer = new DispatcherTimer(TimeSpan.FromSeconds(3), DispatcherPriority.Background, OnGenerateNewLocation);
-        }
-
-        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-        {
-            _moveToLocationTimer.Start();
-            _generateLocationTimer.Start();
-
-            OnGenerateNewLocation(this, EventArgs.Empty);
-
-            base.OnApplyTemplate(e);
+            DataContextChanged += OnDataContextChanged;
         }
 
         private void OnGenerateNewLocation(object? sender, EventArgs e)
         {
-            var canvasVM = (CanvasViewModel)DataContext;
+            var canvasVM = ViewModel;
+            if (canvasVM is null)
+            {
+                return;
+            }
 
             foreach (var cursor in canvasVM.Cursors)
             {
@@ -44,7 +40,12 @@ namespace Nodify.Shapes.Canvas
 
         private void OnMoveToLocationTick(object? sender, EventArgs e)
         {
-            var canvasVM = (CanvasViewModel)DataContext;
+            var canvasVM = ViewModel;
+            if (canvasVM is null)
+            {
+                return;
+            }
+
             double speed = 0.015d;
 
             for (int i = 0; i < canvasVM.Cursors.Count; i++)
@@ -66,7 +67,12 @@ namespace Nodify.Shapes.Canvas
 
         private void Editor_MouseDown(object sender, PointerPressedEventArgs e)
         {
-            var toolbarVm = ((CanvasViewModel)DataContext).CanvasToolbar;
+            var toolbarVm = ViewModel?.CanvasToolbar;
+            if (toolbarVm is null)
+            {
+                return;
+            }
+
             if (toolbarVm.SelectedTool != CanvasTool.None && DrawingGesturesMappings.Instance.Draw.Matches(this, e))
             {
                 _initialLocation = Editor.MouseLocation;
@@ -99,6 +105,22 @@ namespace Nodify.Shapes.Canvas
         }
 
         #endregion
+
+        private void OnDataContextChanged(object? sender, EventArgs e)
+        {
+            _moveToLocationTimer.Stop();
+            _generateLocationTimer.Stop();
+            _moveToLocations.Clear();
+
+            if (ViewModel is null)
+            {
+                return;
+            }
+
+            OnGenerateNewLocation(this, EventArgs.Empty);
+            _moveToLocationTimer.Start();
+            _generateLocationTimer.Start();
+        }
 
         private void Minimap_Zoom(object sender, ZoomEventArgs e)
         {
