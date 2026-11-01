@@ -22,7 +22,9 @@ jobs:
           dotnet restore
       - name: Build
         run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test Nodify.Tests/Nodify.Tests.csproj --configuration Release --no-build
       - name: Publish the package
-        run: dotnet nuget push "*/bin/Release/*.nupkg" -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json
+        run: dotnet nuget push "Nodify/bin/Release/*.nupkg" -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
       
