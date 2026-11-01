@@ -316,6 +316,8 @@ namespace Nodify
         /// <inheritdoc />
         protected override void OnPointerCaptureLost(PointerCaptureLostEventArgs e)
         {
+            base.OnPointerCaptureLost(e);
+
             if (ignoreNextOnPointerCaptureLost)
             {
                 ignoreNextOnPointerCaptureLost = false;
@@ -388,10 +390,14 @@ namespace Nodify
             if (!releaseMouseCapture && EnableStickyConnections && IsPendingConnection)
             {
                 ignoreNextOnPointerCaptureLost = true;
+                IPointer pointer = e.Pointer;
                 Dispatcher.UIThread.Post(() =>
                 {
-                    capturedMouse = e.Capture(this);
                     ignoreNextOnPointerCaptureLost = false;
+                    if (IsPendingConnection)
+                    {
+                        CaptureMouse(pointer);
+                    }
                 });
             }
         }
