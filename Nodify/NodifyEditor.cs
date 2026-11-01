@@ -80,7 +80,7 @@ namespace Nodify
             editor.TranslateTransform.X = -translate.X * editor.ViewportZoom;
             editor.TranslateTransform.Y = -translate.Y * editor.ViewportZoom;
 
-            var renderScale = (editor.GetVisualRoot()?.RenderScaling ?? 1);
+            var renderScale = ((editor.VisualRoot as TopLevel)?.RenderScaling ?? 1);
             editor.DpiScaledTranslateTransform.X = editor.TranslateTransform.X * renderScale;
             editor.DpiScaledTranslateTransform.Y = editor.TranslateTransform.Y * renderScale;
 
@@ -932,7 +932,7 @@ namespace Nodify
 
                 for (var i = 0; i < items.Count; i++)
                 {
-                    containers.Add((ItemContainer)ItemContainerGenerator.ContainerFromIndex(i));
+                    containers.Add((ItemContainer)ContainerFromIndex(i));
                 }
 
                 return containers;
@@ -969,7 +969,7 @@ namespace Nodify
         /// </summary>
         public NodifyEditor()
         {
-            AddHandler(Gestures.PointerTouchPadGestureMagnifyEvent, OnPointerTouchPadGestureMagnify);
+            AddHandler(PointerTouchPadGestureMagnifyEvent, OnPointerTouchPadGestureMagnify);
             AddHandler(Connector.DisconnectEvent, new ConnectorEventHandler(OnConnectorDisconnected));
             AddHandler(Connector.PendingConnectionStartedEvent, new PendingConnectionEventHandler(OnConnectionStarted));
             AddHandler(Connector.PendingConnectionCompletedEvent, new PendingConnectionEventHandler(OnConnectionCompleted));
@@ -1455,20 +1455,29 @@ namespace Nodify
             IList? selected = SelectedItems;
             if (selected != null)
             {
+                // The SelectionModel reports null items when its Source is null or is being updated
+                // (the selected indexes cannot be resolved to items yet). Those are not items of this
+                // editor and must not leak into the bound selection.
                 IReadOnlyList<object?> added = e.SelectedItems;
                 for (var i = 0; i < added.Count; i++)
                 {
+                    object? item = added[i];
+
                     // Ensure no duplicates are added
-                    if (!selected.Contains(added[i]))
+                    if (item != null && !selected.Contains(item))
                     {
-                        selected.Add(added[i]);
+                        selected.Add(item);
                     }
                 }
 
                 IReadOnlyList<object?> removed = e.DeselectedItems;
                 for (var i = 0; i < removed.Count; i++)
                 {
-                    selected.Remove(removed[i]);
+                    object? item = removed[i];
+                    if (item != null)
+                    {
+                        selected.Remove(item);
+                    }
                 }
             }
 
@@ -1487,7 +1496,7 @@ namespace Nodify
             BeginUpdateSelectedItems();
             for (var i = 0; i < items.Count; i++)
             {
-                var container = (ItemContainer)ItemContainerGenerator.ContainerFromIndex(i);
+                var container = (ItemContainer)ContainerFromIndex(i);
                 if (container.IsPreviewingSelection == true && container.IsSelectable)
                 {
                     Selection.Select(i);
@@ -1507,7 +1516,7 @@ namespace Nodify
             ItemCollection items = Items;
             for (var i = 0; i < items.Count; i++)
             {
-                var container = (ItemContainer)ItemContainerGenerator.ContainerFromIndex(i);
+                var container = (ItemContainer)ContainerFromIndex(i);
                 container.IsPreviewingSelection = null;
             }
         }
@@ -1525,7 +1534,7 @@ namespace Nodify
             BeginUpdateSelectedItems();
             for (var i = 0; i < items.Count; i++)
             {
-                var container = (ItemContainer)ItemContainerGenerator.ContainerFromIndex(i);
+                var container = (ItemContainer)ContainerFromIndex(i);
 
                 if (container.IsSelectableInArea(area, fit))
                 {
@@ -1563,7 +1572,7 @@ namespace Nodify
             BeginUpdateSelectedItems();
             for (var i = 0; i < items.Count; i++)
             {
-                var container = (ItemContainer)ItemContainerGenerator.ContainerFromIndex(i);
+                var container = (ItemContainer)ContainerFromIndex(i);
                 if (container.IsSelectableInArea(area, fit))
                 {
                     Selection.Select(i);
