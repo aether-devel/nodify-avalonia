@@ -7,8 +7,6 @@ namespace Nodify
     {
         private bool ignoreNextOnPointerCaptureLost;
 
-        private IDisposable? capturedMouse;
-
         public static readonly StyledProperty<HorizontalAlignment> HorizontalContentAlignmentProperty = ContentControl.HorizontalContentAlignmentProperty.AddOwner<Connector>();
 
         public static readonly StyledProperty<VerticalAlignment> VerticalContentAlignmentProperty = ContentControl.VerticalContentAlignmentProperty.AddOwner<Connector>();
@@ -30,17 +28,6 @@ namespace Nodify
             base.OnPropertyChanged(change);
             if (change.Property == IsConnectedProperty)
                 PseudoClasses.Set(":connected", (bool)change.NewValue);
-        }
-
-        protected override void ReleaseMouseCapture()
-        {
-            if (capturedMouse != null)
-            {
-                capturedMouse.Dispose();
-                capturedMouse = null;
-            }
-            else if (currentPointerArgs != null)
-                base.ReleaseMouseCapture();
         }
     }
 }
