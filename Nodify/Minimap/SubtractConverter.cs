@@ -8,10 +8,9 @@ namespace Nodify
     {
         public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values.Any(x => x is UnsetValueType)) return false;
-
-            double result = (double)values[0]! - (double)values[1]!;
-            return result;
+            if (values.Count == 2 && values[0] is double a && values[1] is double b)
+                return a - b;
+            return AvaloniaProperty.UnsetValue;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

@@ -28,6 +28,14 @@
     </Window.DataContext>
 
     <Grid>
-        <canvas:CanvasView DataContext="{Binding Canvas}" />
+        <!-- Presented through a template so CanvasView is created with the CanvasViewModel as its DataContext
+             and never inherits the AppShellViewModel (its compiled bindings are typed to CanvasViewModel). -->
+        <ContentControl Content="{Binding Canvas}">
+            <ContentControl.ContentTemplate>
+                <DataTemplate x:DataType="canvas:CanvasViewModel">
+                    <canvas:CanvasView />
+                </DataTemplate>
+            </ContentControl.ContentTemplate>
+        </ContentControl>
     </Grid>
 </Window>

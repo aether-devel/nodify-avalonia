@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="Nodify.Playground.NodifyEditorView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:behaviours="clr-namespace:Nodify.Shared.Behaviours;assembly=Nodify.Shared"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Nodify.Playground"
@@ -70,21 +71,21 @@
             <Setter Property="(Interaction.Behaviors)">
                 <BehaviorCollectionTemplate>
                     <BehaviorCollection>
-                        <DataTrigger Property="Input.Shape" 
+                        <behaviours:DataTrigger Property="Input.Shape" 
                                      Value="{x:Static local:ConnectorShape.Square}">
                             <PropertySetter Property="Stroke"
                                     Value="{StaticResource SquareConnectorColor}" />
                             <PropertySetter Property="Fill"
                                     Value="{StaticResource SquareConnectorColor}" />
-                        </DataTrigger>
-                        <DataTrigger Property="Input.Shape" 
+                        </behaviours:DataTrigger>
+                        <behaviours:DataTrigger Property="Input.Shape" 
                                      Value="{x:Static local:ConnectorShape.Triangle}">
                             <PropertySetter Property="Stroke"
                                     Value="{StaticResource TriangleConnectorColor}" />
                             <PropertySetter Property="Fill"
                                     Value="{StaticResource TriangleConnectorColor}" />
-                        </DataTrigger>
-                        <DataTrigger Property="IsPointerOver" Value="True">
+                        </behaviours:DataTrigger>
+                        <behaviours:DataTrigger Property="IsPointerOver" Value="True">
                             <!-- <DataTrigger.EnterActions> -->
                             <!--     <BeginStoryboard Name="HighlightConnection" Storyboard="{StaticResource HighlightConnection}" /> -->
                             <!-- </DataTrigger.EnterActions> -->
@@ -93,16 +94,16 @@
                             <!-- </DataTrigger.ExitActions> -->
                             <PropertySetter Property="Opacity"
                                     Value="1" />
-                        </DataTrigger>
-                        <DataTrigger Property="IsPointerOver" Value="False">
+                        </behaviours:DataTrigger>
+                        <behaviours:DataTrigger Property="IsPointerOver" Value="False">
                             <PropertySetter Property="OutlineBrush"
                                             Value="Transparent" />
-                        </DataTrigger>
-                        <DataTrigger Property="IsSelectable"
+                        </behaviours:DataTrigger>
+                        <behaviours:DataTrigger Property="IsSelectable"
                                  Value="True">
                             <PropertySetter Property="Cursor"
                                     Value="Hand" />
-                        </DataTrigger>
+                        </behaviours:DataTrigger>
                     </BehaviorCollection>
                 </BehaviorCollectionTemplate>
             </Setter>
@@ -301,26 +302,26 @@
                     <Setter Property="(Interaction.Behaviors)">
                         <BehaviorCollectionTemplate>
                             <BehaviorCollection>
-                                <DataTrigger Property="ShowGridLines" Source="{x:Static local:PlaygroundSettings.Instance}"
+                                <behaviours:DataTrigger Property="ShowGridLines" Source="{x:Static local:PlaygroundSettings.Instance}"
                                              Value="True">
                                     <PropertySetter Property="Background"
                                             Value="{StaticResource SmallGridLinesDrawingBrush}" />
-                                </DataTrigger>
-                                <DataTrigger Property="ConnectionStyle" Source="{x:Static local:EditorSettings.Instance}"
+                                </behaviours:DataTrigger>
+                                <behaviours:DataTrigger Property="ConnectionStyle" Source="{x:Static local:EditorSettings.Instance}"
                                                      Value="Line">
                                     <PropertySetter Property="ConnectionTemplate"
                                                     Value="{StaticResource LineConnectionTemplate}" />
-                                </DataTrigger>
-                                <DataTrigger Property="ConnectionStyle" Source="{x:Static local:EditorSettings.Instance}"
+                                </behaviours:DataTrigger>
+                                <behaviours:DataTrigger Property="ConnectionStyle" Source="{x:Static local:EditorSettings.Instance}"
                                                      Value="Circuit">
                                     <PropertySetter Property="ConnectionTemplate"
                                                     Value="{StaticResource CircuitConnectionTemplate}" />
-                                </DataTrigger>
-                                <DataTrigger Property="ConnectionStyle" Source="{x:Static local:EditorSettings.Instance}"
+                                </behaviours:DataTrigger>
+                                <behaviours:DataTrigger Property="ConnectionStyle" Source="{x:Static local:EditorSettings.Instance}"
                                                      Value="Step">
                                     <PropertySetter Property="ConnectionTemplate"
                                                     Value="{StaticResource StepConnectionTemplate}" />
-                                </DataTrigger>
+                                </behaviours:DataTrigger>
                             </BehaviorCollection>
                         </BehaviorCollectionTemplate>
                     </Setter>
@@ -384,20 +385,20 @@
                                                 <Setter Property="(Interaction.Behaviors)">
                                                     <BehaviorCollectionTemplate>
                                                         <BehaviorCollection>
-                                                            <DataTrigger Property="Source.Shape" 
+                                                            <behaviours:DataTrigger Property="Source.Shape" 
                                                                          Value="{x:Static local:ConnectorShape.Square}">
                                                                 <PropertySetter Property="Stroke" 
                                                                                 Value="{StaticResource SquareConnectorColor}"/>
                                                                 <PropertySetter Property="Fill" 
                                                                                 Value="{StaticResource SquareConnectorColor}"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Property="Source.Shape" 
+                                                            </behaviours:DataTrigger>
+                                                            <behaviours:DataTrigger Property="Source.Shape" 
                                                                          Value="{x:Static local:ConnectorShape.Triangle}">
                                                                 <PropertySetter Property="Stroke" 
                                                                                 Value="{StaticResource TriangleConnectorColor}"/>
                                                                 <PropertySetter Property="Fill" 
                                                                                 Value="{StaticResource TriangleConnectorColor}"/>
-                                                            </DataTrigger>
+                                                            </behaviours:DataTrigger>
                                                         </BehaviorCollection>
                                                     </BehaviorCollectionTemplate>
                                                 </Setter>
@@ -434,7 +435,7 @@
                     <Setter Property="(Interaction.Behaviors)">
                         <BehaviorCollectionTemplate>
                             <BehaviorCollection>
-                                <DataTrigger Property="Shape" 
+                                <behaviours:DataTrigger Property="Shape" 
                                              Value="{x:Static local:ConnectorShape.Square}">
                                     <PropertySetter Property="ConnectorTemplate" 
                                                     Value="{StaticResource SquareConnector}" />
@@ -452,8 +453,8 @@
                                             </DataTemplate>
                                         </PropertySetter.Value>
                                     </PropertySetter>
-                                </DataTrigger>
-                                <DataTrigger Property="Shape" 
+                                </behaviours:DataTrigger>
+                                <behaviours:DataTrigger Property="Shape" 
                                              Value="{x:Static local:ConnectorShape.Triangle}">
                                     <PropertySetter Property="ConnectorTemplate" 
                                                     Value="{StaticResource TriangleConnector}" />
@@ -471,7 +472,7 @@
                                             </DataTemplate>
                                         </PropertySetter.Value>
                                     </PropertySetter>
-                                </DataTrigger>
+                                </behaviours:DataTrigger>
                             </BehaviorCollection>
                         </BehaviorCollectionTemplate>
                     </Setter>
@@ -497,20 +498,20 @@
                     <Setter Property="(Interaction.Behaviors)">
                         <BehaviorCollectionTemplate>
                             <BehaviorCollection>
-                                <DataTrigger Property="Shape" 
+                                <behaviours:DataTrigger Property="Shape" 
                                              Value="{x:Static local:ConnectorShape.Square}">
                                     <PropertySetter Property="ConnectorTemplate" 
                                                     Value="{StaticResource SquareConnector}" />
                                     <PropertySetter Property="BorderBrush" 
                                                     Value="{StaticResource SquareConnectorColor}"/>
-                                </DataTrigger>
-                                <DataTrigger Property="Shape" 
+                                </behaviours:DataTrigger>
+                                <behaviours:DataTrigger Property="Shape" 
                                              Value="{x:Static local:ConnectorShape.Triangle}">
                                     <PropertySetter Property="ConnectorTemplate" 
                                                     Value="{StaticResource TriangleConnector}" />
                                     <PropertySetter Property="BorderBrush" 
                                                     Value="{StaticResource TriangleConnectorColor}"/>
-                                </DataTrigger>
+                                </behaviours:DataTrigger>
                             </BehaviorCollection>
                         </BehaviorCollectionTemplate>
                     </Setter>
@@ -611,11 +612,11 @@
                     <Setter Property="(Interaction.Behaviors)">
                         <BehaviorCollectionTemplate>
                             <BehaviorCollection>
-                                <DataTrigger Property="IsSelected" 
+                                <behaviours:DataTrigger Property="IsSelected" 
                                              Value="True">
                                     <PropertySetter Property="Panel.ZIndex" 
                                                     Value="1" />
-                                </DataTrigger>
+                                </behaviours:DataTrigger>
                             </BehaviorCollection>
                         </BehaviorCollectionTemplate>
                     </Setter>

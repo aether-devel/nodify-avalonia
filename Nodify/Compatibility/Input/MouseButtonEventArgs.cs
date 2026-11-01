@@ -78,6 +78,11 @@ public class MouseButtonEventArgs : MouseEventArgs
 
     public MouseButtonState RightButton { get; }
 
+    /// <summary>
+    /// The pointer that raised this event.
+    /// </summary>
+    public IPointer Pointer => ((PointerEventArgs)args).Pointer;
+
     public IDisposable Capture(IInputElement element)
     {
         if (args is PointerPressedEventArgs e)

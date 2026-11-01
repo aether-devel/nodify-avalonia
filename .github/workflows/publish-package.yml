@@ -6,23 +6,34 @@ on:
     tags:
       - "v*.*.*"
 
+permissions:
+  contents: read
+  id-token: write # required for OIDC Trusted Publishing to nuget.org
+
 jobs:
   publish:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4.3.1
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '10.0.x'
       - name: Install dependencies
         run:  |
           dotnet workload restore
           dotnet restore
       - name: Build
         run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test Nodify.Tests/Nodify.Tests.csproj --configuration Release --no-build
+      - name: NuGet login (Trusted Publishing, temporary API key)
+        id: nuget-login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: ${{ secrets.NUGET_USER }}
       - name: Publish the package
-        run: dotnet nuget push "*/bin/Release/*.nupkg" -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json
+        run: dotnet nuget push "Nodify/bin/Release/*.nupkg" -k ${{ steps.nuget-login.outputs.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
       
