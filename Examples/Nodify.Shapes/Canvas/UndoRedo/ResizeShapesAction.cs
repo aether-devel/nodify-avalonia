@@ -16,10 +16,10 @@ namespace Nodify.Shapes.Canvas.UndoRedo
 
         public ResizeShapesAction(CanvasViewModel canvas)
         {
-            _resizedShapes = canvas.SelectedShapes;
+            _resizedShapes = MoveShapesAction.SnapshotSelection(canvas);
             _initialSizes = _resizedShapes.ToDictionary(x => x, x => new Size(x.Width, x.Height));
 
-            _moveShapesAction = new MoveShapesAction(canvas);
+            _moveShapesAction = new MoveShapesAction(_resizedShapes);
         }
 
         public string? Label => "Resize shapes";
